@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 export default function App() {
   //상태, 함수, 상수, 변수 들어가는 자리
@@ -46,19 +47,40 @@ export default function App() {
   // 이쁘게 뿌려주기 (html, css) 데이터 처리 (개발자)
   return (
     // 화면에 보여지는 부분 html
-    <div>
-      {/* <h1>{newsData.length}</h1> */}
+    <Container>
+      <Row>
+        {/* <h1>{newsData.length}</h1> */}
 
-      {/* <button onClick={getNewsData}>데이터 가져오기</button> */}
+        {/* <button onClick={getNewsData}>데이터 가져오기</button> */}
 
-      {/* 하나의 데이터를 샘플링(표준화, 상수화, news) */}
-      {newsData &&
-        newsData.map((news) => (
-          <>
-            <h1>{news.title}</h1>
-            <div>{news.description}</div>
-          </>
-        ))}
-    </div>
+        {/* 하나의 데이터를 샘플링(표준화, 상수화, news) */}
+        {newsData &&
+          newsData.map((news) => (
+            <Col className='mt-5'>
+              <Card style={{ width: '18rem' }}>
+                <Card.Img
+                  variant='top'
+                  style={{ height: '180px' }}
+                  src={news.urlToImage}
+                />
+                <Card.Body>
+                  <Card.Title>{news.title.slice(0, 15)}</Card.Title>
+                  <Card.Text>{news.description.slice(0, 100)}</Card.Text>
+
+                  <Card.Text>author: {news.author}</Card.Text>
+                  <Card.Text>
+                    <h5>publishedAt: {news.publishedAt.slice(0, 10)}</h5>
+                  </Card.Text>
+
+                  <Button href={news.url} variant='primary'>
+                    {/* <a href={news.url}>기사 보기</a> */}
+                    기사 보기
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+      </Row>
+    </Container>
   );
 }
