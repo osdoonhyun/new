@@ -11,19 +11,31 @@ export default function App() {
 
   // 데이터를 불러올 함수 만들기 네트워킹시 async/await
   const getNewsData = async () => {
-    try {
-      const address =
-        'https://newsapi.org/v2/everything?q=tesla&from=2023-04-26&sortBy=publishedAt&apiKey=5fddc9cea96243d286344fda2da50446';
-      const { data, status } = await axios.get(address); // 직접호출
-      // console.log('********************', data);
-      if (status === 200) {
-        // 명확하게 만약 성공했지만 데이터가 없을 경우, 에러핸들링 대비하기 위해
-        setNewsData(data.articles);
-      }
-    } catch (error) {
-      // 모든 에러를 상수화
-      console.log(error.message);
-    }
+    const address =
+      'https://newsapi.org/v2/everything?q=tesla&from=2023-04-26&sortBy=publishedAt&apiKey=5fddc9cea96243d286344fda2da50446';
+    await fetch(address) // 동기 방식 , Header, network 정보가 담겨져 있지 않다. axios fetch 의 차이
+      .then((res) => res.json()) // 형태변환 text -> json
+      .then((response) => setNewsData(response.articles));
+
+    // try {
+    //   const address =
+    //     'https://newsapi.org/v2/everything?q=tesla&from=2023-04-26&sortBy=publishedAt&apiKey=5fddc9cea96243d286344fda2da50446';
+    //   // const { data, status } = await axios.get(address); // 직접호출
+    //   // console.log('********************', data);
+
+    //   // fetch
+    //   fetch(address)
+    //     .then((res) => res.json()) // 형태변환 text -> json
+    //     .then((response) => console.log(response));
+
+    //   // if (status === 200) {
+    //     // 명확하게 만약 성공했지만 데이터가 없을 경우, 에러핸들링 대비하기 위해
+    //     // setNewsData(data.articles);
+    //   }
+    // } catch (error) {
+    //   // 모든 에러를 상수화
+    //   console.log(error.message);
+    // }
   };
 
   // 데이터 화면에 뿌려주기 (자동으로 실행하는 함수(훅))
